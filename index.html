@@ -3,106 +3,327 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Company Name</title>
-  <meta name="description" content="WDSA — Independent consultancy. Practical advice, quick results.">
+  <title>WDSA — Westhoff Design Support Automation</title>
+  <meta name="description" content="WDSA — Westhoff Design Support Automation. Engineering support for design & automation projects." />
   <style>
-    /* Minimal, clean, single-file styles */
-    :root {
-      --bg: #0f172a;        /* slate-900 */
-      --card: #111827;      /* gray-900 */
-      --text: #e5e7eb;      /* gray-200 */
-      --muted: #9ca3af;     /* gray-400 */
-      --accent: #60a5fa;    /* blue-400 */
-      --ring: rgba(96,165,250,.35);
+    :root{
+      --bg:#f5f5f5;
+      --panel:#ffffff;
+      --text:#111827;
+      --muted:#4b5563;
+      --line:rgba(0,0,0,.08);
+      --brand:#2563eb;
+      --brand-strong:#3b82f6;
+      --accent:#7c3aed;
     }
-    html, body { height: 100%; }
-    body {
-      margin: 0;
-      background: radial-gradient(1200px 800px at 20% 0%, #1f2937 0%, var(--bg) 40%),
-                  radial-gradient(900px 700px at 100% 100%, #111827 0%, var(--bg) 40%);
-      color: var(--text);
-      font: 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
-      display: grid;
-      place-items: center;
-      padding: 24px;
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;background:var(--bg);color:var(--text);
+         font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,Helvetica Neue,sans-serif}
+    a{color:inherit}
+    .container{width:100%;max-width:1100px;margin:0 auto;padding:0 20px}
+
+    /* Header / Nav */
+    header.site{position:fixed;top:0;left:0;right:0;z-index:1000;
+      background:rgba(255,255,255,0.95);border-bottom:1px solid var(--line)}
+    .nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+    .brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+    .logo{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font-weight:800;color:#fff;
+      background:linear-gradient(135deg,var(--brand),var(--brand-strong));box-shadow:0 8px 24px rgba(37,99,235,.35)}
+    .brand h1{font-size:1.1rem;margin:0}
+    .brand small{display:block;color:var(--muted);font-size:.8rem;margin-top:2px}
+    nav ul{display:flex;gap:14px;list-style:none;margin:0;padding:0}
+    nav a{display:inline-block;padding:8px 12px;border-radius:10px;border:1px solid transparent;text-decoration:none;font-weight:600;letter-spacing:.2px}
+    nav a:hover{background:rgba(0,0,0,.04);border-color:var(--line)}
+    /* Scroll-spy active state */
+    nav a.active{
+      color: var(--brand);
+      border-color: transparent; /* optional: keep it clean */
+      background: transparent;   /* no gray background */
+      font-weight: 700;          /* make it a bit bolder */
     }
-    .card {
-      width: 100%;
-      max-width: 720px;
-      background: color-mix(in oklab, var(--card) 92%, black);
-      border: 1px solid rgba(255,255,255,.06);
-      border-radius: 20px;
-      box-shadow: 0 10px 35px rgba(0,0,0,.45);
-      padding: 28px;
+
+    .menu-btn{display:none}
+
+    /* Push content below fixed header */
+    main{padding-top:80px}
+
+    /* Hero */
+    .hero{padding:72px 0 48px;border-bottom:1px solid var(--line)}
+    .hero h2{font-size:2rem;margin:0 0 10px}
+    .hero p{color:var(--muted);max-width:60ch}
+
+    /* Sections */
+    section{scroll-margin-top:82px}
+    .section{padding:56px 0;border-bottom:1px solid var(--line)}
+    .section h3{font-size:1.4rem;margin:0 0 10px}
+    .section p.lead{color:var(--muted);margin-top:0}
+
+    /* Grids */
+    .grid{display:grid;gap:16px}
+    @media (min-width:800px){
+      .grid.cols-3{grid-template-columns:repeat(3,1fr)}
+      .grid.cols-2{grid-template-columns:repeat(2,1fr)}
     }
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 14px;
+    .card{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:16px}
+    .card h4{margin:0 0 6px;font-size:1.05rem}
+    .muted{color:var(--muted)}
+
+    /* Project cards with background images */
+    .project-card{
+      background-size:cover;
+      background-position:center;
+      color:#fff;
+      position:relative;
+      overflow:hidden;
+      border-radius:6px;
+      min-height:200px;
     }
-    .logo {
-      width: 48px; height: 48px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, var(--accent), #7dd3fc);
-      box-shadow: 0 6px 18px rgba(96,165,250,.45);
-      display:grid;place-items:center;
-      font-weight: 700; color:#0b1220;
+    .project-card::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:rgba(0,0,0,0.5);
     }
-    h1 { font-size: 1.6rem; margin: 0; letter-spacing: .2px; }
-    .tagline { color: var(--muted); margin: 6px 0 0; }
-    .content { margin: 22px 0 10px; }
-    .content p { margin: 0 0 10px; }
-    .links {
-      display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px;
+    .project-card h4,
+    .project-card p{
+      position:relative;
+      z-index:1;
+      color:#fff;
     }
-    .btn {
-      appearance: none; border: 1px solid rgba(255,255,255,.12);
-      background: transparent; color: var(--text);
-      padding: 10px 14px; border-radius: 12px; text-decoration: none;
-      font-weight: 600; letter-spacing: .2px;
-      transition: transform .06s ease, background .2s ease, border-color .2s ease;
-    }
-    .btn:hover { background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.22); transform: translateY(-1px); }
-    .btn:focus-visible { outline: 0; box-shadow: 0 0 0 6px var(--ring); }
-    footer {
-      margin-top: 18px; color: var(--muted); font-size: .9rem;
-      display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap;
-      border-top: 1px dashed rgba(255,255,255,.12); padding-top: 12px;
+
+    /* Footer */
+    footer{padding:28px 0;color:var(--muted)}
+    footer .row{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+    /* Contact list */
+    .contact-list{display:grid;gap:10px}
+    .contact-list a{display:inline-flex;align-items:center;gap:10px;text-decoration:none;border:1px solid var(--line);padding:10px 12px;border-radius:12px}
+    .contact-list a:hover{background:rgba(0,0,0,.04)}
+
+    /* Mobile nav */
+    @media (max-width:720px){
+      .menu-btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:transparent;color:var(--text);padding:8px 10px;border-radius:10px}
+      nav ul{display:none;position:absolute;right:20px;top:58px;background:var(--panel);border:1px solid var(--line);padding:8px;border-radius:12px}
+      nav ul.open{display:flex;flex-direction:column}
     }
     .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
   </style>
 </head>
 <body>
-  <main class="card" role="main" aria-labelledby="site-title">
-    <header class="brand">
-      <div class="logo" aria-hidden="true">W</div>
-      <div>
-        <h1 id="site-title">Company Name</h1>
-        <p class="tagline">Description. This will need a bit more text, some proper filler.</p>
-      </div>
-    </header>
+  <!-- Header / Nav -->
+  <header class="site">
+    <div class="container nav">
+      <a class="brand" href="#top">
+        <div class="logo" aria-hidden="true">W</div>
+        <div>
+          <h1>WDSA</h1>
+          <small>Westhoff Design Support Automation</small>
+        </div>
+      </a>
+      <nav>
+        <button class="menu-btn" aria-expanded="false" aria-controls="menu">☰ Menu</button>
+        <ul id="menu" aria-label="Primary">
+          <li><a href="#services">Services</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#partners">Partners</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
-    <section class="content">
-      <p>
-        Hi, I’m <strong>Name</strong>. I do stuff for people. Stuff that makes their lives easier. Who doesn't want an easy life.
-      </p>
-      <div class="links" aria-label="Contact">
-        <a class="btn" href="mailto:info@wdsa.nl" rel="noopener">info@company.nl</a>
-        <a class="btn" href="tel:+31000000000" rel="noopener">+31 00 000 0000</a>
-        <a class="btn" href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>
-        <a class="btn" href="https://maps.google.com/?q=Amsterdam" target="_blank" rel="noopener">Amsterdam, NL</a>
+  <main>
+    <!-- Hero -->
+    <section id="top" class="hero">
+      <div class="container">
+        <h2>Design, support & automation — done pragmatically.</h2>
+        <p class="muted">WDSA helps SMEs move faster: hands‑on engineering support, practical automation, and dependable delivery.
+          Led by <strong>Jos Westhoff</strong>.</p>
       </div>
     </section>
 
-    <footer>
-      <span>© <span id="year"></span> Company Name</span>
-      <span>KVK 00000000</span>
-    </footer>
+    <!-- Services -->
+    <section id="services" class="section">
+      <div class="container">
+        <h3>Services</h3>
+        <p class="lead">Lightweight help that makes a difference quickly. Tailored to your team and tooling.</p>
+        <div class="grid cols-3">
+          <div class="card">
+            <h4>Design Support</h4>
+            <p class="muted">CAD reviews, documentation, prototyping guidance, and supplier hand‑off.</p>
+          </div>
+          <div class="card">
+            <h4>Process & Automation</h4>
+            <p class="muted">Streamline repetitive tasks; build simple scripts or no‑code automations that stick.</p>
+          </div>
+          <div class="card">
+            <h4>Project Assistance</h4>
+            <p class="muted">Short‑term reinforcement: planning, vendor coordination, QA checks, acceptance tests.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="section">
+      <div class="container">
+        <h3>About WDSA</h3>
+        <div class="grid cols-2">
+          <div class="card">
+            <h4>Jos Westhoff</h4>
+            <p class="muted">Engineer and problem‑solver with a practical streak. I blend design support with automation so teams can focus on real work, not busywork.</p>
+          </div>
+          <div class="card">
+            <h4>Approach</h4>
+            <p class="muted">Clear scope, short feedback loops, and documentation your team will actually use. Start small, deliver value fast, then scale.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects" class="section">
+      <div class="container">
+        <h3>Projects</h3>
+        <p class="lead">A few representative engagements. (Replace with real ones when ready.)</p>
+        <div class="grid cols-3">
+          <div class="project-card" style="background-image:url('images/project1.jpg')">
+            <h4>Configuration tooling</h4>
+            <p>Scripted generation of drawings and BOMs reduced manual work by 60%.</p>
+          </div>
+          <div class="project-card" style="background-image:url('images/project2.jpg')">
+            <h4>Process audit</h4>
+            <p>Mapped design workflow; introduced lightweight QA checklist and hand‑off templates.</p>
+          </div>
+          <div class="project-card" style="background-image:url('images/project3.jpg')">
+            <h4>Prototype support</h4>
+            <p>Coordinated suppliers, validated tolerances, and documented lessons learned.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Partners -->
+    <section id="partners" class="section">
+      <div class="container">
+        <h3>Partners</h3>
+        <p class="lead">Trusted collaborators.</p>
+        <div class="grid cols-2">
+          <div class="card">
+            <h4>Main Partner</h4>
+            <p class="muted">Short blurb on the company he primarily works with.</p>
+            <p><a class="btn" href="#" target="_blank" rel="noopener">Visit partner site</a></p>
+          </div>
+          <div class="card">
+            <h4>Other Partners</h4>
+            <p class="muted">Optional list or logos here.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="section">
+      <div class="container">
+        <h3>Contact</h3>
+        <div class="grid cols-2">
+          <div class="card">
+            <h4>Get in touch</h4>
+            <div class="contact-list">
+              <a href="tel:+31XXXXXXXXX" aria-label="Phone"><span>📞</span> <strong>+31 XXXXXXXXX</strong></a>
+              <a href="mailto:info@wdsa.nl" aria-label="Email"><span>✉️</span> info@wdsa.nl</a>
+              <a href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn"><span>🔗</span> LinkedIn profile</a>
+              <a href="https://maps.google.com/?q=Your+Address+NL" target="_blank" rel="noopener" aria-label="Address"><span>📍</span> Street Name 1, 1234 AB City</a>
+            </div>
+          </div>
+          <div class="card">
+            <h4>Company</h4>
+            <p class="muted">WDSA — Westhoff Design Support Automation</p>
+            <p class="muted">KVK: 00000000 · VAT: NL000000000B01</p>
+            <p class="muted">© <span id="year"></span> WDSA. All rights reserved.</p>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 
+  <footer>
+    <div class="container row">
+      <span>© <span id="footYear"></span> WDSA</span>
+      <a href="#top" class="muted">Back to top ↑</a>
+    </div>
+  </footer>
+
   <script>
-    // tiny enhancement: keep the year current
-    document.getElementById('year').textContent = new Date().getFullYear();
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', e=>{
+        const id = a.getAttribute('href');
+        if(id.length>1){
+          e.preventDefault();
+          document.querySelector(id)?.scrollIntoView({behavior:'smooth'});
+          const btn = document.querySelector('.menu-btn');
+          const menu = document.getElementById('menu');
+          menu?.classList.remove('open');
+          if (btn) btn.setAttribute('aria-expanded','false');
+        }
+      })
+    })
+
+    // Mobile menu toggle
+    const btn = document.querySelector('.menu-btn');
+    const menu = document.getElementById('menu');
+    btn?.addEventListener('click', ()=>{
+      const open = menu.classList.toggle('open');
+      btn.setAttribute('aria-expanded', String(open));
+    });
+
+    // --- Scroll spy: highlight current section in the nav ---
+    const headerHeight = 80; // keep in sync with main{padding-top:80px}
+    const sections = document.querySelectorAll('main section[id]');
+    const navMap = new Map(
+      [...document.querySelectorAll('nav a[href^="#]')]
+        .map(a => [a.getAttribute('href').slice(1), a])
+    );
+
+    function setActive(id){
+      navMap.forEach(a => a.classList.remove('active'));
+      const link = navMap.get(id);
+      if (link) link.classList.add('active');
+    }
+
+    // MODE A: middle-of-screen drives highlight (default)
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        setActive(entry.target.id);
+      });
+    }, {
+      root: null,
+      rootMargin: '-45% 0px -45% 0px',
+      threshold: 0.01
+    });
+
+    sections.forEach(sec => observer.observe(sec));
+
+    // Optional MODE B (top-based):
+    // const observer = new IntersectionObserver((entries) => {
+    //   entries.forEach(entry => {
+    //     if (!entry.isIntersecting) return;
+    //     setActive(entry.target.id);
+    //   });
+    // }, {
+    //   root: null,
+    //   rootMargin: `-${headerHeight + 1}px 0px 0px 0px`,
+    //   threshold: 0.01
+    // });
+
+    // Years
+    const y = new Date().getFullYear();
+    document.getElementById('year').textContent = y;
+    document.getElementById('footYear').textContent = y;
   </script>
 </body>
 </html>
