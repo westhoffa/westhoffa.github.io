@@ -61,7 +61,7 @@
     font-variant-numeric: lining-nums tabular-nums slashed-zero;
   }
 
-  :where(section) { scroll-margin-top: 65px; }
+  :where(section) { scroll-margin-top: 68px; }
   a { color: inherit; text-decoration: none; }
   img { max-inline-size: 100%; display: block; }
 
@@ -96,10 +96,6 @@
 
   /* Only animate if user hasn't asked to reduce motion */
   @keyframes spin { to { transform: rotate(360deg); } }
-  @media (prefers-reduced-motion: no-preference) {
-    .brand-logo #gear1-rotator { animation: spin 6s linear infinite; }
-    .brand-logo #gear2-rotator { animation: spin 24s linear infinite reverse; }
-  }
 
   /* Index chips */
   .index { display: flex; flex-wrap: wrap; gap: .6rem .9rem; }
@@ -108,8 +104,7 @@
   }
   .index a:hover,
   .index a:focus-visible {
-    background: rgba(78,69,217,.18);
-    outline: 2px solid transparent;
+    background: transparent; outline: none;
   }
 
   /* Sections & headings */
@@ -196,11 +191,8 @@
     text-decoration: none;
     transition: background .2s, color .2s, box-shadow .2s;
   }
-  .btn:hover { color: var(--text-white); background: var(--brand-blue); }
-  .btn:focus-visible {
-    outline: 3px solid color-mix(in oklab, var(--brand-blue) 60%, white);
-    outline-offset: 2px;
-  }
+  .btn:hover, 
+  .btn:focus-visible { background: var(--brand-blue); color: var(--text-white); border: 2px solid var(--brand-blue);}
   .btn-block { display: block; inline-size: 100%; margin-block-start: 0.6rem; }
 
   /* Company info icons */
@@ -408,13 +400,13 @@
     let speedFactor = 1; // default speed
     let direction = 1; // 1 = normal, -1 = reversed (click brand to toggle)
 
-// Toggle direction when clicking the brand logo
-const brandLogo = document.querySelector('.brand-logo');
-if (brandLogo) {
-  brandLogo.addEventListener('click', () => {
-    direction *= -1;
-  });
-}
+    // Toggle direction when clicking the brand logo
+    const brandLogo = document.querySelector('.brand-logo');
+    if (brandLogo) {
+      brandLogo.addEventListener('click', () => {
+        direction *= -1;
+      });
+    }
 
     // Update speed factor based on mouse distance from center of logo
     document.addEventListener("mousemove", (e) => {
