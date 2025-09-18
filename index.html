@@ -236,7 +236,7 @@
     color: var(--text-white);
   }
   .menu-btn svg{
-    width:34px; height:34px;
+    width:38px; height:38px;
     fill:none;
     stroke: currentColor;
   }
@@ -589,6 +589,21 @@
 })();
 </script>
 
+<script>
+  (() => {
+    const header = document.querySelector('header.site-header');
+    if (!header) return;
+
+    const setH = () => {
+      const h = Math.ceil(header.getBoundingClientRect().height);
+      document.documentElement.style.setProperty('--header-height', h + 'px');
+    };
+    setH();
+    window.addEventListener('resize', setH, { passive: true });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(setH);
+    new ResizeObserver(setH).observe(header);
+  })();
+</script>
 
 
 
