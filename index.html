@@ -39,7 +39,7 @@
   --overlay: #00000094;
 
   --parallax-bleed: 14vh;
-  --header-height: 67px;
+  --header-height: 68px;
   }
 
   /* Progressive enhancement for color-mix */
@@ -105,10 +105,15 @@
   .index a {
     opacity: .9; padding: .4rem .6rem; text-transform: uppercase; font-weight: 600; font-size: 0.85rem;
   }
-  .index a:hover,
   .index a:focus-visible {
-    background: transparent; outline: none;
+background: transparent; outline: none; color: var(--bg-blue-darkst);
+}
+@media (hover: hover) and (pointer: fine) {
+  .index a:hover {
+background: transparent; outline: none; color: var(--bg-blue-darkst);
   }
+}
+
 
   /* Sections & headings */
   section { padding-block: 3.5rem; }
@@ -199,8 +204,15 @@
     text-decoration: none;
     transition: background .2s, color .2s, box-shadow .2s;
   }
-  .btn:hover, 
-  .btn:focus-visible { background: var(--brand-blue); color: var(--text-white); border: 2px solid var(--brand-blue);}
+  .btn:focus-visible {
+background: var(--brand-blue); color: var(--text-white); border: 2px solid var(--brand-blue);
+}
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover {
+background: var(--brand-blue); color: var(--text-white); border: 2px solid var(--brand-blue);
+  }
+}
+
   .btn-block { display: block; inline-size: 100%; margin-block-start: 0.6rem; }
 
   /* Company info icons */
@@ -208,7 +220,7 @@
     display: flex; inline-size: 100%; margin-block-start: 0.6rem; color: var(--brand-blue); line-height: 2; align-items: center;
   }
   .company-info .company-info-link:hover,
-  .company-info .company-info-link:focus-visible { color: var(--bg-blue-darker); }
+  .company-info .company-info-link:focus-visible { color: var(--bg-blue-darkst); }
   .company-info :is(.icon, img.icon, svg) {
     inline-size: 1.5em; block-size: 1.5em; flex: 0 0 auto; margin-inline-end: 0.6em; display: inline-block; vertical-align: middle; fill: none; stroke: var(--brand-blue);
   }
@@ -249,7 +261,7 @@
     /* Pop-up menu */
     #menu.index{
       position: fixed;
-      inset-block-start: var(--header-height);
+      inset-block-start: calc(var(--header-height) - 1px);
       inset-inline-end: 1rem;
       display: none;
       flex-direction: column;
@@ -280,7 +292,10 @@
   }
 
 
-  </style>
+  
+/* Remove tap highlight on touch devices */
+a, button, .btn, .menu-btn, [role="button"], input, select, textarea { -webkit-tap-highlight-color: transparent; }
+</style>
 </head>
 <body>
   <header class="site-header">
