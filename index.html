@@ -220,58 +220,66 @@
     .has-bg.parallax{ background-position: center; }
   }
 
-  /* Mobile pop-up menu */
-  .menu-btn {
+  /* a11y helper */
+  /* Icon-only menu button */
+.menu-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  background:transparent;
+  border:0;
+  padding:0;
+  line-height:0;
+  cursor:pointer;
+  color: var(--bg-blue-darkst);
+}
+.menu-btn svg{
+  width:28px; height:28px;
+  fill:none;
+  stroke: currentColor;
+  stroke-width:2;
+}
+
+/* Mobile */
+@media (width < 900px){
+  .menu-btn { display:inline-flex; }
+
+  /* Pop-up menu */
+  #menu.index{
+    position: fixed;
+    inset-block-start: 68px;
+    inset-inline-end: 1rem;
     display: none;
-    font: inherit;
-    font-weight: 700;
-    text-transform: uppercase;
-    padding: .35rem .6rem;
-    border: 2px solid var(--bg-blue-darkst);
-    background: var(--text-white);
-    color: var(--bg-blue-darkst);
-    cursor: pointer;
+    flex-direction: column;
+    gap: .4rem;
+    padding: .6rem .7rem;
+    background: var(--bg-blue);
+    border: 2px solid var(--gear-two);
+    box-shadow: 0 14px 28px rgba(0,0,0,.18);
+    max-inline-size: 14rem;
+    z-index: 1100;
   }
+  #menu.index[data-open="true"]{ display:flex; }
 
-  @media (max-width: 699px){
-    .menu-btn { display: inline-block; }
+  #menu.index a{ display:block; padding:.5rem .4rem; background:transparent; }
 
-    /* Turn the existing .index into a small pop-up */
-    #menu.index {
-      position: fixed;
-      inset-block-start: 60px;      /* just below the header */
-      inset-inline-end: 1rem;
-      display: none;                /* hidden by default */
-      flex-direction: column;
-      gap: .4rem;
-      padding: .6rem .7rem;
-      background: var(--bg-blue);
-      border: 2px solid var(--gear-two);
-      border-radius: .6rem;
-      box-shadow: 0 14px 28px rgba(0,0,0,.18);
-      max-inline-size: 14rem;
-      max-block-size: none;         /* no internal scrolling */
-      overflow: hidden;             /* ensure no scrollbars */
-      z-index: 1100;
-    }
-    #menu.index[data-open="true"] { display: flex; }
+  /* Remove this if you want page to stay scrollable while menu is open */
+  /* body.menu-open { overflow: hidden; } */
+}
 
-    /* Make each link easy to tap */
-    #menu.index a {
-      display: block;
-      padding: .5rem .4rem;
-      background: transparent;
-    }
-
-    /* Prevent the page behind from scrolling while open */
-    body.menu-open { overflow: hidden; }
+/* Desktop */
+@media (width >= 900px){
+  .menu-btn { display:none; }
+  #menu.index{
+    position: static;
+    display: flex !important;
+    background: none;
+    border: 0;
+    box-shadow: none;
+    flex-direction: row;
   }
+}
 
-  /* Desktop keeps your existing inline chips */
-  @media (min-width: 700px){
-    .menu-btn { display: none; }
-    #menu.index { position: static; display: flex !important; background: none; border: 0; box-shadow: none; flex-direction: row; }
-  }
 
   </style>
 </head>
@@ -315,7 +323,11 @@
         </a>
       </div>
       <button class="menu-btn" aria-expanded="false" aria-controls="menu" aria-label="Open menu">
-        ☰
+        <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M6 12H18" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M6 15.5H18" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M6 8.5H18" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
       </button>
       <nav id="menu" class="index" aria-label="Primary">
         <a href="#services">Services</a>
@@ -533,52 +545,54 @@
   </script>
 
   <script>
-  (() => {
-    const btn  = document.querySelector('.menu-btn');
-    const menu = document.getElementById('menu');
-    if (!btn || !menu) return;
+(() => {
+  const btn  = document.querySelector('.menu-btn');
+  const menu = document.getElementById('menu');
+  if (!btn || !menu) return;
 
-    const openMenu = () => {
-      menu.setAttribute('data-open', 'true');
-      btn.setAttribute('aria-expanded', 'true');
-      document.body.classList.add('menu-open');
-    };
-    const closeMenu = () => {
-      menu.setAttribute('data-open', 'false');
-      btn.setAttribute('aria-expanded', 'false');
-      document.body.classList.remove('menu-open');
-    };
+  const openMenu = () => {
+    menu.setAttribute('data-open', 'true');
+    btn.setAttribute('aria-expanded', 'true');
+  };
+  const closeMenu = () => {
+    menu.setAttribute('data-open', 'false');
+    btn.setAttribute('aria-expanded', 'false');
+  };
 
-    btn.addEventListener('click', (e) => {
-      const isOpen = menu.getAttribute('data-open') === 'true';
-      isOpen ? closeMenu() : openMenu();
+  btn.addEventListener('click', (e) => {
+    const isOpen = menu.getAttribute('data-open') === 'true';
+    isOpen ? closeMenu() : openMenu();
+  });
+
+  // Close when a link is used
+  menu.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      closeMenu();
+      // Allow smooth scroll to proceed (you already have smooth scrolling in CSS)
     });
+  });
 
-    // Close when a link is used
-    menu.querySelectorAll('a').forEach(a => {
-      a.addEventListener('click', () => {
-        closeMenu();
-        // Allow smooth scroll to proceed (you already have smooth scrolling in CSS)
-      });
-    });
+  // Click outside to close
+  document.addEventListener('click', (e) => {
+    if (menu.getAttribute('data-open') !== 'true') return;
+    if (!menu.contains(e.target) && !btn.contains(e.target)) closeMenu();
+  });
 
-    // Click outside to close
-    document.addEventListener('click', (e) => {
-      if (menu.getAttribute('data-open') !== 'true') return;
-      if (!menu.contains(e.target) && !btn.contains(e.target)) closeMenu();
-    });
+  // Esc to close
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeMenu();
+  });
 
-    // Esc to close
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeMenu();
-    });
-
-    // Close on resize to desktop
-    window.addEventListener('resize', () => {
-      if (window.innerWidth >= 700) closeMenu();
-    });
-  })();
+  // Close on resize to desktop
+  window.addEventListener('resize', () => {
+    if (window.innerWidth >= 700) closeMenu();
+  });
+})();
 </script>
+
+
+
+
 
 </body>
 </html>
