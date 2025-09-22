@@ -321,23 +321,32 @@
     .has-bg {
       position: relative;
       overflow: hidden;
-      background-image: var(--bg-url);
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-position: var(--bg-position, center);
+      --bg-position: var(--bg-position, center);
     }
 
     .has-bg::before {
       content: "";
       position: absolute;
       inset: calc(-1 * var(--parallax-bleed)) 0;
-      background-image: linear-gradient(var(--overlay, transparent), var(--overlay, transparent)),
-        var(--bg-url);
+      background-image: var(--bg-url);
       background-repeat: no-repeat;
       background-size: cover;
-      background-position: var(--bg-position, center 0);
-      z-index: 0;
+      background-position: var(--bg-position, center);
+      will-change: background-position;
+      transform: translateZ(0);
+      z-index: -1;
+      pointer-events: none;
     }
+
+    .has-bg::after {
+      content: "";
+      position: absolute;
+      inset: calc(-1 * var(--parallax-bleed)) 0;
+      background-color: var(--overlay, rgba(0,0,0,0.6));
+      z-index: 0;
+      pointer-events: none;
+    }
+
 
     .has-bg>* {
       position: relative;
