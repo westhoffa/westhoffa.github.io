@@ -62,7 +62,7 @@
     }
 
     :where(section) {
-      scroll-margin-top: var(--header-height);
+      scroll-margin-top: calc(var(--header-height) - 1px);
     }
 
     a {
@@ -94,7 +94,7 @@
       z-index: 1000;
       background: var(--bg-blue);
       overflow: hidden;
-      border-block-end: 4px solid var(--gear-two);
+      border-block-end: 6px solid var(--gear-two);
       box-shadow: 0 6px 16px rgba(0, 0, 0, .08);
     }
 
@@ -284,13 +284,13 @@
       grid-column: 1 / -1;
     }
 
-    @media (min-width:700px) {
-      .grid>.card {
+    @media (min-width:840px) {
+      .grid:not(.grid-3)>.card {
         grid-column: span 6;
       }
     }
 
-    @media (min-width:980px) {
+    @media (min-width:800px) {
       .grid.grid-3>.card {
         grid-column: span 4;
       }
@@ -307,9 +307,104 @@
       box-shadow: 0 2px 10px rgba(0, 0, 0, .08);
     }
 
+    .card-image {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      display: block;
+      margin-bottom: 0.8rem;
+    }
+
     .card:hover {
       transform: translateY(-4px);
     }
+
+    #projects .lead {
+      margin-bottom: 1.1rem;
+    }
+
+    .projects-grid {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(12, 1fr);
+    }
+
+    .projects-grid .card-image {
+      border: 2px solid var(--brand-blue);
+      border-radius: 2px;
+    }
+
+    .projects-grid>.card {
+      grid-column: 1 / -1;
+    }
+
+    @media (min-width: 980px) {
+      .projects-grid {
+        grid-template-areas:
+          "main main main main main main main main sideA sideA sideA sideA"
+          "main main main main main main main main sideB sideB sideB sideB";
+      }
+
+      .projects-grid>.card.is-active {
+        grid-area: main;
+      }
+
+      .projects-grid>.card.is-min[data-side="1"] {
+        grid-area: sideA;
+      }
+
+      .projects-grid>.card.is-min[data-side="2"] {
+        grid-area: sideB;
+      }
+
+      .projects-grid>.card.is-active .card-image {
+        height: 400px;
+      }
+    }
+
+    .projects-grid>.card.is-min .card-image {
+      height: 200px;
+      margin-bottom: 0.5rem;
+    }
+
+    .projects-grid>.card.is-min p,
+    .projects-grid>.card.is-min .btn,
+    .projects-grid>.card.is-min .accent,
+    .projects-grid>.card.is-min .meta,
+    .projects-grid>.card.is-min .body {
+      display: none !important;
+    }
+
+    .projects-grid>.card.is-active {
+      transform: none;
+    }
+
+    @media (max-width: 979.98px) {
+      .projects-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      .projects-grid>.card.is-active {
+        order: -1;
+        flex: 1 0 100%;
+      }
+
+      .projects-grid>.card.is-min {
+        order: 0;
+        flex: 1 0 calc(50% - 0.5rem);
+      }
+    }
+
+    @media (max-width: 420px) {
+      .projects-grid>.card.is-min {
+        grid-column: 1 / -1;
+      }
+    }
+
+
+
 
     .accent {
       block-size: 3px;
@@ -342,7 +437,7 @@
       content: "";
       position: absolute;
       inset: calc(-1 * var(--parallax-bleed)) 0;
-      background-color: var(--overlay, rgba(0,0,0,0.6));
+      background-color: var(--overlay, rgba(0, 0, 0, 0.6));
       z-index: 0;
       pointer-events: none;
     }
@@ -351,14 +446,6 @@
     .has-bg>* {
       position: relative;
       z-index: 1;
-    }
-
-    .card--image {
-      --card-url: none;
-      background-image: linear-gradient(var(--overlay), var(--overlay)), var(--card-url);
-      background-position: center;
-      background-size: cover;
-      background-repeat: no-repeat;
     }
 
     .btn {
@@ -469,16 +556,16 @@
 
       #menu.index {
         position: fixed;
-        inset-block-start: calc(var(--header-height) - 1px);
-        inset-inline-end: 1rem;
+        top: 1rem;
+        right: 1rem;
         display: none;
         flex-direction: column;
         gap: .4rem;
         padding: .6rem .7rem;
-        background: var(--bg-blue-darker);
-        color: var(--gear-one);
+        background: var(--text-white);
+        color: var(--bg-blue-darkst);
         box-shadow: 0 14px 28px rgba(0, 0, 0, .08);
-        max-inline-size: 14rem;
+        max-width: 14rem;
         z-index: 900;
       }
 
@@ -582,11 +669,13 @@
       <div class="container">
         <h1>All-round System Engineering<br>for Off-Road Applications</h1>
         <div class="accent" aria-hidden="true"></div>
-        <p class="lead">ISOBUS specialist – 20+ years in agricultural machine control. <br> From complete ISOBUS implementations to autopilot integration — I help manufacturers and farmers make their machines smarter, more reliable, and easier to use. </p>
+        <p class="lead">ISOBUS specialist – 20+ years in agricultural machine control. <br> From complete ISOBUS
+          implementations to autopilot integration — I help manufacturers and farmers make their machines smarter, more
+          reliable, and easier to use. </p>
       </div>
     </section>
 
-    <section id="services">
+    <section id="services" class="dark-invert">
       <div class="container">
         <h2>Services</h2>
         <div class="accent" aria-hidden="true"></div>
@@ -594,15 +683,18 @@
         <div class="grid grid-3 mt-4">
           <article class="card">
             <h3>Design</h3>
-            <p>I design and implement custom control systems — from electrical schematics and cabling to operator interfaces and graphics.</p>
+            <p>I design and implement custom control systems—operator HMIs, graphics, and full electrical cabling—from
+              concept to a tested, working machine.</p>
           </article>
           <article class="card">
             <h3>Support</h3>
-            <p>Black-box troubleshooting across mechanics, hydraulics, electronics, hardware, and software. I quickly analyze, pinpoint, and solve — or safely bypass — failures to get you running again.</p>
+            <p>When equipment stops, I trace faults across mechanics, hydraulics, hardware, and software—pinpoint the
+              cause fast, then fix, patch, or guide a safe bypass.</p>
           </article>
           <article class="card">
             <h3>Automation</h3>
-            <p>I integrate ISOBUS and machine control systems to improve precision, efficiency, and ease of operation in demanding field conditions.</p>
+            <p>I integrate machine controls and I/O buses to boost precision and uptime, simplifying operation while
+              improving safety, efficiency, and serviceability.</p>
           </article>
         </div>
       </div>
@@ -612,7 +704,8 @@
       <div class="container">
         <h2>About</h2>
         <div class="accent" aria-hidden="true"></div>
-        <p class="lead">I’m an all-round system engineer with a hands-on approach and a passion for getting things done.</p>
+        <p class="lead">I’m an all-round system engineer with a hands-on approach and a passion for getting things done.
+        </p>
         <ul>
           <li>40+ years of experience with off-road vehicles and applications</li>
           <li>Specializing in mechatronics, hydraulics, and control systems</li>
@@ -627,27 +720,37 @@
         <h2>Projects</h2>
         <div class="accent" aria-hidden="true"></div>
         <p class="lead">Some of the challenges I’ve worked on recently.</p>
-        <div class="grid grid-3 mt-4">
-          <article class="card card--image" style="--card-url: url('images/projects/p1.jpg');">
+
+        <div class="projects-grid">
+
+          <article class="card">
+            <img src="images/projects/john-deere.jpg" alt="John Deere" class="card-image">
             <h3>John Deere</h3>
-            <p>Custom ISOBUS plough control fully designed for John Deere tractors. The VT interface matches the John Deere look & feel and works with multiple tractor generations and GPS systems. It supports side-shift control and implement drawbar steering. With ISOBUS Track Control enabled,
-               the plough can be guided by any tractor that supports this feature.</p>
+            <p>Custom ISOBUS plough control fully designed for John Deere tractors. The VT interface matches the John
+              Deere look & feel and works with multiple tractor generations and GPS systems. It supports side-shift
+              control and implement drawbar steering. With ISOBUS Track Control enabled, the plough can be guided by any
+              tractor that supports this feature.</p>
           </article>
 
-          <article class="card card--image" style="--card-url: url('images/projects/p2.jpg');">
+          <article class="card">
+            <img src="images/projects/wifo.jpg" alt="Wifo Precision Planter" class="card-image">
             <h3>Wifo Precision Planter</h3>
-            <p>Full planter control through the ISOBUS Virtual Terminal and Task Control. Supports task map planting by bulbs per hectare, planting distance, or kilograms per hectare. Designed for precise seeding and field efficiency,
-               the system integrates smoothly with modern tractors and ISOBUS-compatible equipment.</p>
+            <p>Full planter control through the ISOBUS Virtual Terminal and Task Control. Supports task map planting by
+              bulbs per hectare, planting distance, or kilograms per hectare. Designed for precise seeding and field
+              efficiency, the system integrates smoothly with modern tractors and ISOBUS-compatible equipment.</p>
           </article>
 
-          <article class="card card--image" style="--card-url: url('images/projects/p3.jpg');">
+          <article class="card">
+            <img src="images/projects/baselier.jpg" alt="Baselier Potato Planter" class="card-image">
             <h3>Baselier Potato Planter</h3>
-            <p>Complete machine control via ISOBUS Virtual Terminal and Task Control for section and rate management. Optional load-cell bunker weighing enables highly accurate planting by kilograms per hectare. Built for demanding field work,
-               it ensures precision and reliability with modern ISOBUS tractor systems.</p>
+            <p>Complete machine control via ISOBUS Virtual Terminal and Task Control for section and rate management.
+              Optional load-cell bunker weighing enables highly accurate planting by kilograms per hectare. Built for
+              demanding field work, it ensures precision and reliability with modern ISOBUS tractor systems.</p>
           </article>
         </div>
       </div>
     </section>
+
 
     <section id="partners" class="dark-invert">
       <div class="container">
@@ -657,13 +760,17 @@
         <div class="grid grid-2 mt-4">
           <article class="card">
             <h3>Jautomatisering</h3>
-            <p>Specialists in industrial automation and control, we design and deliver tailored solutions for complex and large-scale projects. From software for hydraulics and CANbus systems to full integration and long-term support, we tackle challenging automation demands together.</p><a href="https://jautomatisering.nl/" target="_blank" rel="noopener noreferrer"
-              class="btn">Learn More</a>
+            <p>Specialists in industrial automation and control, we design and deliver tailored solutions for complex
+              and large-scale projects. From software for hydraulics and CANbus systems to full integration and
+              long-term support, we tackle challenging automation demands together.</p><a
+              href="https://jautomatisering.nl/" target="_blank" rel="noopener noreferrer" class="btn">Learn More</a>
           </article>
           <article class="card">
             <h3>EPEC B.V.</h3>
-            <p>Experts in advanced electronics and connectivity for mobile machinery, we deliver robust system solutions from control units to telematics and assistance systems. Serving agriculture and off-road sectors, we boost efficiency, precision, and reliability in the toughest environments.</p><a href="https://epec.fi/" target="_blank" rel="noopener noreferrer"
-              class="btn">Learn More</a>
+            <p>Experts in advanced electronics and connectivity for mobile machinery, we deliver robust system solutions
+              from control units to telematics and assistance systems. Serving agriculture and off-road sectors, we
+              boost efficiency, precision, and reliability in the toughest environments.</p><a href="https://epec.fi/"
+              target="_blank" rel="noopener noreferrer" class="btn">Learn More</a>
           </article>
         </div>
       </div>
@@ -734,8 +841,8 @@
     const TEETH_2 = 32;
     const BASE_OMEGA_1 = 90;
     const CLICK_BOOST = 360;
-    const TAU_MS = 900; 
-    const MAX_EXTRA = 1440; 
+    const TAU_MS = 900;
+    const MAX_EXTRA = 1440;
 
     const gear1 = document.getElementById('gear1-rotator');
     const gear2 = document.getElementById('gear2-rotator');
@@ -758,7 +865,7 @@
       extraOmega1 *= decay;
 
       const omega1 = BASE_OMEGA_1 + extraOmega1;
-      const omega2 = -omega1 * RATIO; 
+      const omega2 = -omega1 * RATIO;
 
       angle1 += omega1 * dt;
       angle2 += omega2 * dt;
@@ -874,6 +981,88 @@
       new ResizeObserver(setH).observe(header);
     })();
   </script>
+
+  <script>
+    (function () {
+      const grid = document.querySelector('.projects-grid');
+      if (!grid) return;
+      const cards = Array.from(grid.querySelectorAll('.card'));
+      if (cards.length !== 3) return;
+
+      function setActive(activeCard) {
+        cards.forEach(c => {
+          c.classList.remove('is-active', 'is-min');
+          c.removeAttribute('data-side');
+        });
+
+        activeCard.classList.add('is-active');
+
+        const others = cards.filter(c => c !== activeCard);
+        others.forEach((c, i) => {
+          c.classList.add('is-min');
+          c.setAttribute('data-side', String(i + 1));
+        });
+
+        const isDesktop = window.matchMedia('(min-width: 980px)').matches;
+        if (!isDesktop) {
+          grid.prepend(activeCard);
+
+
+        }
+      }
+
+      setActive(cards[0]);
+
+      cards.forEach(card => {
+        card.tabIndex = 0;
+        card.addEventListener('click', () => setActive(card));
+        card.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            setActive(card);
+          }
+        });
+      });
+    })();
+
+    (function () {
+      const grid = document.querySelector('.projects-grid');
+      if (!grid) return;
+      const cards = Array.from(grid.querySelectorAll('.card'));
+      if (!cards.length) return;
+
+      function setActive(activeCard) {
+        cards.forEach(c => {
+          c.classList.remove('is-active', 'is-min');
+          c.removeAttribute('data-side');
+          c.removeAttribute('aria-pressed');
+        });
+
+        activeCard.classList.add('is-active');
+        activeCard.setAttribute('aria-pressed', 'true');
+
+        const others = cards.filter(c => c !== activeCard);
+        others.forEach((c, i) => {
+          c.classList.add('is-min');
+          c.setAttribute('data-side', String(i + 1));
+        });
+      }
+
+      setActive(cards[0]);
+      cards.forEach(card => {
+        card.tabIndex = 0;
+        card.setAttribute('role', 'button');
+        card.setAttribute('aria-pressed', 'false');
+        card.addEventListener('click', () => setActive(card));
+        card.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setActive(card); }
+        });
+      });
+    })();
+
+  </script>
+
+
 
 </body>
 
