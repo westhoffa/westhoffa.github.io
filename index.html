@@ -284,13 +284,10 @@
       grid-column: 1 / -1;
     }
 
-    @media (min-width:700px) {
+    @media (min-width:850px) {
       .grid>.card {
         grid-column: span 6;
       }
-    }
-
-    @media (min-width:980px) {
       .grid.grid-3>.card {
         grid-column: span 4;
       }
@@ -520,9 +517,10 @@
     #projects .view {
       position: relative;
       width: 100%;
-      aspect-ratio: 16 / 9;
+      height: 500px;
       background: var(--bg-blue-darkst);
       overflow: visible;
+      max-height: 90vh;
     }
 
     #projects .view img {
@@ -650,20 +648,15 @@
       position: absolute;
       inset-inline: 0;
       bottom: 0;
-
-      --cap-top-extra: clamp(0px, calc(220px - 18vw), 160px);
-      padding: calc(36px + var(--cap-top-extra)) 36px 36px;
-
-      --cap-stop: clamp(70%, calc(80% - 6vw), 84%);
-
+      padding: 36px;
       color: var(--text-white);
       pointer-events: none;
       z-index: 2;
 
       background: linear-gradient(to top,
-          rgba(0, 0, 0, .55) 0%,
-          rgba(0, 0, 0, .35) 40%,
-          transparent var(--cap-stop));
+          rgba(0, 0, 0, 0.6) 0%,
+          rgba(0, 0, 0, 0.4) 60%,
+          transparent 80%)
     }
 
 
@@ -782,18 +775,21 @@
         <div class="grid grid-3 mt-4">
           <article class="card">
             <h3>Design</h3>
-            <p>I design and implement custom control systems — from electrical schematics and cabling to operator
-              interfaces and graphics.</p>
+            <p>I design and implement custom control systems, from schematics and cabling to rugged operator interfaces.
+              Clear
+              graphics, tidy looms, and dependable build quality—delivered as one integrated solution.</p>
           </article>
           <article class="card">
             <h3>Support</h3>
-            <p>Black-box troubleshooting across mechanics, hydraulics, electronics, hardware, and software. I quickly
-              analyze, pinpoint, and solve — or safely bypass — failures to get you running again.</p>
+            <p>Rapid black-box troubleshooting across mechanics, hydraulics, electronics, hardware, and software. I
+              isolate faults
+              fast, fix the root cause, or provide a safe bypass to restore uptime — safely, fast.</p>
           </article>
           <article class="card">
             <h3>Automation</h3>
-            <p>I integrate ISOBUS and machine control systems to improve precision, efficiency, and ease of operation in
-              demanding field conditions.</p>
+            <p>I integrate ISOBUS and machine control systems to improve precision, efficiency, and ease of use.
+              Seamless sensors,
+              controls and workflows—engineered for tough conditions and reliable day-to-day work.</p>
           </article>
         </div>
       </div>
@@ -828,6 +824,7 @@
                   stroke-linecap="round" stroke-linejoin="round" />
               </svg>
             </button>
+
             <img id="project-slide" src="images/projects/image1.jpg" alt="Slide 1" />
 
             <div class="caption" aria-live="polite">
@@ -842,8 +839,9 @@
                   stroke-linecap="round" stroke-linejoin="round" />
               </svg>
             </button>
+            <div class="dots" id="project-dots" role="tablist" aria-label="Slide navigation"></div>
           </div>
-          <div class="dots" id="project-dots" role="tablist" aria-label="Slide navigation"></div>
+
         </div>
 
       </div>
