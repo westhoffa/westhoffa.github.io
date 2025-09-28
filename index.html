@@ -28,17 +28,13 @@
       --brand-blue: #516fa3;
       --gear-one: #afc0dd;
       --gear-two: #284779;
-
       --bg-blue: #516fa3;
       --bg-blue-darker: #284779;
       --bg-blue-darkst: #002050;
-
       --text-white: #ffffff;
-
       --text-white-darker: #d6deec;
       --text-white-darkst: #3e5683;
       --overlay: #22222294;
-
       --parallax-bleed: 14vh;
       --header-height: 68px;
     }
@@ -89,14 +85,17 @@
     }
 
     header.site-header {
-      position: sticky;
-      inset-block-start: 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;    /* ensures full width */
       z-index: 1000;
       background: var(--bg-blue);
       overflow: hidden;
       border-block-end: 4px solid var(--gear-two);
-      box-shadow: 0 6px 16px rgba(0, 0, 0, .08);
+      box-shadow: 0 6px 16px rgba(0,0,0,.08);
     }
+
 
     .nav {
       display: flex;
@@ -178,19 +177,7 @@
       font-size: 0.85rem;
     }
 
-    .index a:focus-visible {
-      background: transparent;
-      outline: none;
-      color: var(--bg-blue-darkst);
-    }
-
-    @media (hover: hover) and (pointer: fine) {
-      .index a:hover {
-        background: transparent;
-        outline: none;
-        color: var(--bg-blue-darkst);
-      }
-    }
+    .index a:is(:hover, :focus-visible) { color: var(--bg-blue-darkst); background: transparent; outline: none; }
 
     section {
       padding-block: 3.5rem;
@@ -212,7 +199,7 @@
     }
 
     h3 {
-      font-size: clamp(0.9rem, 1vw + 0.5rem, 1.2rem);
+      font-size: clamp(1rem, 1vw + 0.5rem, 1.2rem);
       margin: 0 0 .4rem;
       text-transform: uppercase;
     }
@@ -288,6 +275,7 @@
       .grid>.card {
         grid-column: span 6;
       }
+
       .grid.grid-3>.card {
         grid-column: span 4;
       }
@@ -306,6 +294,11 @@
 
     .card:hover {
       transform: translateY(-4px);
+    }
+
+    .chip-corners {
+      --chip: 12px;
+      clip-path: polygon(0% var(--chip), var(--chip) 0%, calc(100% - var(--chip)) 0%, 100% var(--chip), 100% calc(100% - var(--chip)), calc(100% - var(--chip)) 100%, var(--chip) 100%, 0% calc(100% - var(--chip)));
     }
 
     .accent {
@@ -344,7 +337,6 @@
       pointer-events: none;
     }
 
-
     .has-bg>* {
       position: relative;
       z-index: 1;
@@ -365,19 +357,7 @@
       transition: background .2s, color .2s, box-shadow .2s;
     }
 
-    .btn:focus-visible {
-      background: var(--brand-blue);
-      color: var(--text-white);
-      border: 2px solid var(--brand-blue);
-    }
-
-    @media (hover: hover) and (pointer: fine) {
-      .btn:hover {
-        background: var(--brand-blue);
-        color: var(--text-white);
-        border: 2px solid var(--brand-blue);
-      }
-    }
+    .btn:is(:hover, :focus-visible) { background: var(--brand-blue); color: var(--text-white); border-color: var(--brand-blue); }
 
     .btn-block {
       display: block;
@@ -452,22 +432,18 @@
         background-position: center !important;
       }
 
-      .menu-btn {
-        display: inline-flex;
-      }
-
       #menu.index {
         position: fixed;
-        inset-block-start: calc(var(--header-height) - 1px);
-        inset-inline-end: 1rem;
+        top: 1rem;
+        right: 1rem;
         display: none;
         flex-direction: column;
         gap: .4rem;
         padding: .6rem .7rem;
-        background: var(--bg-blue-darker);
-        color: var(--gear-one);
+        background: var(--text-white);
+        color: var(--bg-blue-darkst);
         box-shadow: 0 14px 28px rgba(0, 0, 0, .08);
-        max-inline-size: 14rem;
+        max-width: 14rem;
         z-index: 900;
       }
 
@@ -508,8 +484,6 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    #projects {}
-
     #projects .projects-slider {
       position: relative;
     }
@@ -517,29 +491,23 @@
     #projects .view {
       position: relative;
       width: 100%;
-      height: 500px;
       background: var(--bg-blue-darkst);
-      overflow: visible;
-      max-height: 90vh;
+      overflow: hidden;
+      height: 400px;
     }
 
     #projects .view img {
       width: 100%;
       height: 100%;
-      display: block;
       object-fit: cover;
       object-position: center;
     }
 
-    #projects .view::before,
-    #projects .view::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      width: 72px;
-      pointer-events: none;
-      z-index: 3;
+    #projects .view-inner {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      grid-template-columns: 1fr min(42ch, 40%);
     }
 
     .sr-only {
@@ -643,58 +611,68 @@
       outline-offset: 3px;
     }
 
-
     #projects .caption {
-      position: absolute;
-      inset-inline: 0;
-      bottom: 0;
-      padding: 36px;
+      position: static;
+      background: var(--bg-blue-darker); 
+      padding: 1rem 1.1rem;
+      padding-inline-end: calc(1.1rem + 20px);
       color: var(--text-white);
-      pointer-events: none;
-      z-index: 2;
-
-      background: linear-gradient(to top,
-          rgba(0, 0, 0, 0.6) 0%,
-          rgba(0, 0, 0, 0.4) 60%,
-          transparent 80%)
-    }
-
-
-    #projects .caption a {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+      gap: 8px;
+      height: 100%;
       pointer-events: auto;
     }
 
-    #projects .caption h3 {
-      margin: 0 0 4px;
-      font-size: clamp(1.1rem, 1vw + 1rem, 1.35rem);
-      font-weight: 600;
-      letter-spacing: .3px;
-      text-shadow: 0 2px 8px rgba(0, 0, 0, .35);
-    }
-
-    #projects .caption p {
-      margin: 0;
-      line-height: 1.5
-    }
+    #projects .caption h3 { margin: 0 0 .35rem; }
+    #projects .caption p  { margin: 0; line-height: 1.5; }
 
     @media (prefers-reduced-motion: reduce) {
       #projects .dot {
         transition: none;
       }
-
-      #projects .nav:active {
-        transform: translateY(-50%);
-      }
     }
 
-    @media (max-width: 600px) {
+    html { overflow-x: hidden; }           /* or drop this if you prefer it on body */
+    body { padding-top: var(--header-height); }
+
+    @media (max-width: 800px) {
+      #projects .caption { padding-inline-end: 1.1rem; }
+
+      #projects,
+      #projects .projects-slider,
       #projects .view {
-        border-radius: 10px;
+        height: auto !important;
+        max-height: none !important;
+      }
+
+      #projects .view {
+        overflow: hidden;
+      }
+
+      #projects .view-inner {
+        grid-template-columns: 1fr !important;
+      }
+
+      #projects .view img {
+        width: 100%;
+        height: 55vw;
+        max-height: 360px;
+        min-height: 200px;
+        object-fit: cover;
+        display: block;
       }
 
       #projects .nav {
-        font-size: 18px;
-        padding: 6px 10px;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+
+      #projects .dots {
+        position: static;
+        margin-top: 12px;
       }
     }
   </style>
@@ -746,7 +724,7 @@
           <path d="M6 8.5H18" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
       </button>
-      <nav id="menu" class="index" aria-label="Primary">
+      <nav id="menu" class="index chip-corners" aria-label="Primary">
         <a href="#services">Services</a>
         <a href="#about">About</a>
         <a href="#projects">Projects</a>
@@ -773,19 +751,19 @@
         <div class="accent" aria-hidden="true"></div>
         <p class="lead">Here’s how I can support your project.</p>
         <div class="grid grid-3 mt-4">
-          <article class="card">
+          <article class="card chip-corners">
             <h3>Design</h3>
             <p>I design and implement custom control systems, from schematics and cabling to rugged operator interfaces.
               Clear
               graphics, tidy looms, and dependable build quality—delivered as one integrated solution.</p>
           </article>
-          <article class="card">
+          <article class="card chip-corners">
             <h3>Support</h3>
             <p>Rapid black-box troubleshooting across mechanics, hydraulics, electronics, hardware, and software. I
               isolate faults
               fast, fix the root cause, or provide a safe bypass to restore uptime — safely, fast.</p>
           </article>
-          <article class="card">
+          <article class="card chip-corners">
             <h3>Automation</h3>
             <p>I integrate ISOBUS and machine control systems to improve precision, efficiency, and ease of use.
               Seamless sensors,
@@ -824,14 +802,13 @@
                   stroke-linecap="round" stroke-linejoin="round" />
               </svg>
             </button>
-
-            <img id="project-slide" src="images/projects/image1.jpg" alt="Slide 1" />
-
-            <div class="caption" aria-live="polite">
-              <h3 id="project-caption-title">Title for slide 1</h3>
-              <p id="project-caption-body">Body text for slide 1 goes here.</p>
+            <div class="view-inner chip-corners">
+              <img id="project-slide" src="images/projects/image1.jpg" alt="Slide 1" />
+              <article class="caption" aria-live="polite">
+                <h3 id="project-caption-title">Title for slide 1</h3>
+                <p id="project-caption-body">Body text for slide 1 goes here.</p>
+              </article>
             </div>
-
             <button class="nav next" aria-label="Next image" type="button">
               <span class="sr-only">Next</span>
               <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -854,14 +831,14 @@
         <div class="accent" aria-hidden="true"></div>
         <p class="lead">I'm proud to collaborate with these teams.</p>
         <div class="grid grid-2 mt-4">
-          <article class="card">
+          <article class="card chip-corners">
             <h3>Jautomatisering</h3>
             <p>Specialists in industrial automation and control, we design and deliver tailored solutions for complex
               and large-scale projects. From software for hydraulics and CANbus systems to full integration and
               long-term support, we tackle challenging automation demands together.</p><a
               href="https://jautomatisering.nl/" target="_blank" rel="noopener noreferrer" class="btn">Learn More</a>
           </article>
-          <article class="card">
+          <article class="card chip-corners">
             <h3>EPEC B.V.</h3>
             <p>Experts in advanced electronics and connectivity for mobile machinery, we deliver robust system solutions
               from control units to telematics and assistance systems. Serving agriculture and off-road sectors, we
@@ -877,7 +854,7 @@
         <h2>Contact</h2>
         <div class="accent" aria-hidden="true"></div>
         <div class="grid grid-2 mt-4">
-          <article class="card company-info">
+          <article class="card company-info chip-corners">
             <h3>Get in touch</h3>
             <div>
               <a class="company-info-link" href="mailto:info@wdsa.nl">
@@ -909,7 +886,7 @@
               </a>
             </div>
           </article>
-          <article class="card">
+          <article class="card chip-corners">
             <h3>Company / KvK</h3>
             <div class="company-info">
               <span>WDSA — Westhoff Design Support Automation</span>
