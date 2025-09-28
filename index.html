@@ -34,7 +34,7 @@
       --text-white: #ffffff;
       --text-white-darker: #d6deec;
       --text-white-darkst: #3e5683;
-      --overlay: #22222294;
+      --overlay: #00000060;
       --parallax-bleed: 14vh;
       --header-height: 68px;
     }
@@ -332,7 +332,7 @@
       content: "";
       position: absolute;
       inset: calc(-1 * var(--parallax-bleed)) 0;
-      background-color: var(--overlay, rgba(0, 0, 0, 0.6));
+      background-color: var(--overlay);
       z-index: 0;
       pointer-events: none;
     }
@@ -340,6 +340,18 @@
     .has-bg>* {
       position: relative;
       z-index: 1;
+    }
+
+    .has-bg.light-overlay {
+      --overlay: transparent;   /* white glass overlay */
+      color: var(--bg-blue-darkst);           /* dark blue text */
+    }
+    .has-bg.light-overlay :is(h1, h2, h3) {
+      color: var(--bg-blue-darkst);
+      font-weight: 700;
+    }
+    .has-bg.light-overlay p {
+      color: var(--text-white-darkst);        /* legible paragraph color on light overlay */
     }
 
     .btn {
@@ -735,13 +747,12 @@
   </header>
 
   <main>
-    <section id="intro" class="has-bg parallax" style="--bg-url: url('images/hero.jpg');">
+    <section id="intro" class="has-bg parallax light-overlay" style="--bg-url: url('images/hero2.jpg');">
       <div class="container">
         <h1>All-round System Engineering<br>for Off-Road Applications</h1>
         <div class="accent" aria-hidden="true"></div>
-        <p class="lead">ISOBUS specialist – 20+ years in agricultural machine control. <br> From complete ISOBUS
-          implementations to autopilot integration — I help manufacturers and farmers make their machines smarter, more
-          reliable, and easier to use. </p>
+        <p class="lead">More then 20 years of experience in agricultural machine control from full ISOBUS implementation to autopilot
+        interfacing. </p>
       </div>
     </section>
 
@@ -773,7 +784,7 @@
       </div>
     </section>
 
-    <section id="about" class="has-bg parallax" style="--bg-url: url('images/about.jpg');">
+    <section id="about" class="has-bg parallax" style="--bg-url: url('images/about2.jpg');">
       <div class="container">
         <h2>About</h2>
         <div class="accent" aria-hidden="true"></div>
@@ -816,11 +827,9 @@
                   stroke-linecap="round" stroke-linejoin="round" />
               </svg>
             </button>
-            <div class="dots" id="project-dots" role="tablist" aria-label="Slide navigation"></div>
           </div>
-
+          <div class="dots" id="project-dots" role="tablist" aria-label="Slide navigation"></div>
         </div>
-
       </div>
     </section>
 
